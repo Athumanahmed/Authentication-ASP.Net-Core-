@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Email Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 672px;
+            padding: 32px;
+            margin: auto;
+            background-color: #ffffff;
+        }
+
+        .text-gray-700 {
+            color: #4a5568;
+        }
+
+        .text-gray-600 {
+            color: #718096;
+        }
+
+        .bg-blue-600 {
+            background-color: #3182ce;
+        }
+
+        .bg-blue-500 {
+            background-color: #4299e1;
+        }
+
+        .text-white {
+            color: #ffffff;
+        }
+
+        .rounded-lg {
+            border-radius: 8px;
+        }
+
+        .hover\:bg-blue-500:hover {
+            background-color: #4299e1;
+        }
+    </style>
+</head>
+<body>
+    <section class="container">
+        <main style="margin-top: 32px;">
+            <h2 class="text-gray-700">Hi {{FirstName}},</h2>
+
+            <p class="mt-2 leading-loose text-gray-600">
+                Please verify your email to complete your registration on <span style="font-weight: 600;">Meraki UI</span>.
+            </p>
+
+            <p class="mt-4 leading-loose text-gray-600">
+                To complete the process, click the button below to verify your email:
+            </p>
+
+            <a href="{{VerificationUrl}}" style="padding: 12px 24px; margin-top: 16px; font-size: 14px; font-weight: 500; text-transform: capitalize; background-color: #3182ce; color: #ffffff; text-align: center; border-radius: 8px; text-decoration: none;">
+                Verify email
+            </a>
+
+            <p class="mt-8 text-gray-600">
+                If you didn't register with us, please ignore this message. If you need assistance, feel free to contact us.
+            </p>
+
+            <p class="mt-8 text-gray-600">
+                Thanks, <br>
+                Meraki UI team
+            </p>
+        </main>
+
+        <footer class="mt-8">
+            <p class="text-gray-500">
+                This email was sent to {{UserEmail}}. If you'd rather not receive this kind of email, you can <a href="#" style="color: #3182ce; text-decoration: underline;" target="_blank">unsubscribe</a> or <a href="#" style="color: #3182ce; text-decoration: underline;">manage your email preferences</a>.
+            </p>
+        </footer>
+    </section>
+
+</body>
+</html>
