@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Authentication__ASP.Net_Core__.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250212165822_setOtpToNullabe")]
-    partial class setOtpToNullabe
+    [Migration("20250213112518_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,56 @@ namespace Authentication__ASP.Net_Core__.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Authentication__ASP.Net_Core__.Entities.Models.Permission", b =>
+                {
+                    b.Property<int>("PermissionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PermissionId"));
+
+                    b.Property<bool>("CanRead")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanWrite")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PermissionName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("PermissionId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("Authentication__ASP.Net_Core__.Entities.Models.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RoleId"));
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles");
+                });
 
             modelBuilder.Entity("Authentication__ASP.Net_Core__.Entities.Models.User", b =>
                 {
@@ -88,6 +138,9 @@ namespace Authentication__ASP.Net_Core__.Migrations
                     b.Property<DateTime?>("ResetPasswordTokenExpiryTime")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -96,7 +149,49 @@ namespace Authentication__ASP.Net_Core__.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Authentication__ASP.Net_Core__.Entities.Models.Permission", b =>
+                {
+                    b.HasOne("Authentication__ASP.Net_Core__.Entities.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Authentication__ASP.Net_Core__.Entities.Models.User", "User")
+                        .WithMany("Permissions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Authentication__ASP.Net_Core__.Entities.Models.User", b =>
+                {
+                    b.HasOne("Authentication__ASP.Net_Core__.Entities.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Authentication__ASP.Net_Core__.Entities.Models.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Authentication__ASP.Net_Core__.Entities.Models.User", b =>
+                {
+                    b.Navigation("Permissions");
                 });
 #pragma warning restore 612, 618
         }

@@ -62,6 +62,9 @@ builder.Services.AddValidatorsFromAssemblyContaining<RegisterValidators>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+
 
 // disabling this so as to use fluent Validation
 builder.Services.Configure<ApiBehaviorOptions>(options =>

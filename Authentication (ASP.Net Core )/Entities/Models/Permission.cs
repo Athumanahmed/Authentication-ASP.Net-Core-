@@ -18,7 +18,7 @@ namespace Authentication__ASP.Net_Core__.Entities.Models
         public int RoleId { get; set; }
         public Role Role { get; set; }
 
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public User User { get; set; }
     }
 }
