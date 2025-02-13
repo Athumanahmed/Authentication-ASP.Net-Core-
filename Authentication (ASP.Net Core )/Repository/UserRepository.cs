@@ -1,6 +1,7 @@
 ﻿using Authentication__ASP.Net_Core__.APIResponse;
 using Authentication__ASP.Net_Core__.Data;
 using Authentication__ASP.Net_Core__.Entities.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication__ASP.Net_Core__.Repository
@@ -77,6 +78,37 @@ namespace Authentication__ASP.Net_Core__.Repository
             }
 
             return new ApiResponse<User>(true, "User retrieved successfully", user, 200);
+        }
+
+        public async Task<ApiResponse<User>> GetUserByIdAsync(Guid userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return new ApiResponse<User>(false, "User not found", null, 404);
+            }
+
+            return new ApiResponse<User>(true, "User found", user, 200);
+        }
+
+        public async Task<ApiResponse<User>> GetUserByOTPTokenAsync(string otpToken)
+        {
+            var userWithOTP = await _context.Users
+                .Where(u => u.OTPToken == otpToken)
+                .FirstOrDefaultAsync();
+
+            if (userWithOTP == null)
+            {
+                return new ApiResponse<User>(false, "Invalid OTP", null, 404);
+            }
+
+            if (userWithOTP.OTPVerificationExpiry < DateTime.UtcNow)
+            {
+                return new ApiResponse<User>(false, "OTP has expired", null, 400);
+            }
+
+            return new ApiResponse<User>(true, "User retrieved successfully", userWithOTP, 200);
         }
 
         public async Task<User?> GetUserByTokenAsync(string token)

@@ -25,6 +25,11 @@ namespace Authentication__ASP.Net_Core__.Entities.Models
         public string? ResetPasswordToken { get; set; }
         public DateTime? ResetPasswordTokenExpiryTime { get; set; }
 
+        public string PhoneNumber { get; set; }
+        public string? OTPToken { get; set; }
+        public bool IsOTPVerified { get; set; } = false;
+        public DateTime? OTPVerificationExpiry { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }

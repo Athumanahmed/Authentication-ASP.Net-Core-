@@ -3,6 +3,7 @@ using System;
 using Authentication__ASP.Net_Core__.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Authentication__ASP.Net_Core__.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250212164828_AddedUserInfoForSmsOTPVerification")]
+    partial class AddedUserInfoForSmsOTPVerification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,6 +63,7 @@ namespace Authentication__ASP.Net_Core__.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("OTPToken")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("OTPVerificationExpiry")
