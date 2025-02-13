@@ -13,7 +13,24 @@ namespace Authentication__ASP.Net_Core__.Data
         {
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
-                .IsUnique(); // Ensure email is unique
+                .IsUnique(); //  email is unique
+
+
+            modelBuilder.Entity<Role>()
+                .HasMany(r => r.Users)
+                .WithOne(u => u.Role)
+                .HasForeignKey(u => u.RoleId);
+
+
+            modelBuilder.Entity<Permission>()
+                .HasOne(p => p.Role)
+                .WithMany()
+                .HasForeignKey(p => p.RoleId);
+
+            modelBuilder.Entity<Permission>()
+            .HasOne(p => p.User)
+            .WithMany(u => u.Permissions)
+            .HasForeignKey(p => p.UserId);
         }
     }
 }

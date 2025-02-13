@@ -32,5 +32,14 @@ namespace Authentication__ASP.Net_Core__.Entities.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+
+        // foreign key
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
+
+
+        //nvaigation property
+        public ICollection<Permission> Permissions { get; set; } = new List<Permission>();
     }
 }

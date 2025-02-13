@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace Authentication__ASP.Net_Core__.Controllers
 {
@@ -187,6 +188,29 @@ namespace Authentication__ASP.Net_Core__.Controllers
             }
 
             return NotFound(response);
+        }
+
+
+
+        [HttpPost("beem-callback")]
+        public async Task<IActionResult> BeemCallback([FromBody] BeemCallbackDto callbackData)
+        {
+            // Log the callback data for debugging
+            Console.WriteLine($"Beem Callback Received: {JsonSerializer.Serialize(callbackData)}");
+
+            // Example: Handle SMS delivery status
+            if (callbackData.Status == "DELIVERED")
+            {
+                // Update your database to mark OTP as delivered
+                Console.WriteLine($"OTP successfully delivered to {callbackData.Recipient}");
+            }
+            else if (callbackData.Status == "FAILED")
+            {
+                // You might want to retry sending OTP or notify the user
+                Console.WriteLine($"OTP failed to deliver to {callbackData.Recipient}");
+            }
+
+            return Ok();
         }
 
 
